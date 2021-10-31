@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import json
 
+with open('config.json' 'r') as c:
+    params = json.load(c)["params"]
+
+local_server = True
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///User.db'
 db = SQLAlchemy(app)
@@ -25,7 +30,11 @@ class User(db.Model):
 
 @app.route("/")
 def index():
-    return "Hi! Hotelier"
+    return '<h1>Hi! This is Your Regular Hotelier.</h1>'
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("login.html", params=params)
 
 
 @app.route("/admin", methods=["GET", "POST"])
