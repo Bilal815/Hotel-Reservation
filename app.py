@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
 
-with open('config.json' 'r') as c:
-    params = json.load(c)["params"]
+'''with open('config.json' 'r') as c:
+    params = json.load(c)["params"]'''
 
 local_server = True
 app = Flask(__name__)
@@ -26,18 +26,16 @@ class User(db.Model):
     def __repr__(self):
         return 'User ' + str(self.title)
 
-
-
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return '<h1>Hi! This is Your Regular Hotelier.</h1>'
+        return render_template('home.html')
 
 @app.route("/dashboard")
 def dashboard():
     return render_template("login.html", params=params)
 
 
-@app.route("/admin", methods=["GET", "POST"])
+@app.route("/admin", methods=["GET", "POST"], users=all_users)
 def admin():
     if request.method == "POST":
         '''Add entry to the database'''
@@ -53,7 +51,10 @@ def admin():
         db.session.add(entry)
         db.session.commit()
         return "form posted!!!"
-    return render_template('index.html')
+
+    elif request.method == "GET":
+        all_users = User.query.all()
+        return render_template('index.html')
 
 
 if __name__ == "__main__":
