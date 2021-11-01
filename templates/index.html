@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Stellar Admin</title>
+    <title>Hotelier Admin</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{{url_for('static',filename = 'vendors/simple-line-icons/css/simple-line-icons.css')}}">
@@ -24,6 +24,7 @@
     <link rel="shortcut icon" href="{{url_for('static',filename = 'images/favicon.png')}}" />
   </head>
   <body>
+  {% block body %}
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -42,6 +43,7 @@
             <br>
             <br>
             <br>
+            {% for user in users %}
             <div class="row">
               <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -65,15 +67,15 @@
                           <tr>
                             <td>
                               <a onclick="document.getElementById('id01').style.display='block'" href="#">
-                                <img class="img-sm rounded-circle" src="{{url_for('static',filename = 'images/faces/face1.jpg')}}" alt="profile image"> Katie Holmes
+                                <img class="img-sm rounded-circle" src="{{url_for('static',filename = 'images/faces/face1.jpg')}}" alt="profile image"> {{ user.title }}
                               </a>
                             </td>
-                            <td><a onclick="document.getElementById('id02').style.display='block'" href="#">$3621</a></td>
-                            <td><a onclick="document.getElementById('id03').style.display='block'" href="#"><img src="{{url_for('static',filename = 'images/dashboard/alipay.png')}}" alt="alipay" class="gateway-icon mr-2"> alipay</a></td>
-                            <td><a onclick="document.getElementById('id04').style.display='block'" href="#">04 Jun 2019</a></td>
-                            <td><a onclick="document.getElementById('id05').style.display='block'" href="#">18 Jul 2019</a></td>
+                            <td><a onclick="document.getElementById('id02').style.display='block'" href="#">${{ user.amount }}</a></td>
+                            <td><a onclick="document.getElementById('id03').style.display='block'" href="#"><img src="{{url_for('static',filename = 'images/dashboard/alipay.png')}}" alt="alipay" class="gateway-icon mr-2">{{ user.gateway }}</a></td>
+                            <td><a onclick="document.getElementById('id04').style.display='block'" href="#">{{ user.date_posted }}</a></td>
+                            <td><a onclick="document.getElementById('id05').style.display='block'" href="#">{{ user.date_purchased }}</a></td>
                             <td>
-                              <a onclick="document.getElementById('id06').style.display='block'" href="#" class="badge badge-success p-2">Paid</a>
+                              <a onclick="document.getElementById('id06').style.display='block'" href="#" class="badge badge-success p-2">{{ user.status }}</a>
                             </td>
                             <div id="id01" class="w3-modal">
                               <div class="w3-modal-content">
@@ -390,5 +392,6 @@
     <!-- Custom js for this page -->
     <script src="{{url_for('static',filename = 'js/dashboard.js')}}"></script>
     <!-- End custom js for this page -->
+  {% endblock %}
   </body>
 </html>
